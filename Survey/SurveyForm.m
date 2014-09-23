@@ -48,7 +48,9 @@ NSDictionary *propertiesForClass(Class klass)
         {
             const char *propType = getPropertyType(property);
             NSString *propertyName = [NSString stringWithUTF8String:propName];
-            NSString *propertyType = [NSString stringWithUTF8String:propType];
+            NSCharacterSet* charactersToRemove = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+            NSString* rawPropertyType = [NSString stringWithCString:propType encoding:NSASCIIStringEncoding];
+            NSString* propertyType = [[rawPropertyType componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
             [results setObject:propertyType forKey:propertyName];
         }
     }
